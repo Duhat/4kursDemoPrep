@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище firstModelContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="Event">
+      <EntityTypeMapping TypeName="firstModel.Event">
+        <MappingFragment StoreEntitySet="Event">
+          <ScalarProperty Name="Event_ID" ColumnName="Event_ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Date_of_Start" ColumnName="Date_of_Start" />
+          <ScalarProperty Name="Day_Longs" ColumnName="Day_Longs" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Section">
+      <EntityTypeMapping TypeName="firstModel.Section">
+        <MappingFragment StoreEntitySet="Section">
+          <ScalarProperty Name="Section_ID" ColumnName="Section_ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sex">
+      <EntityTypeMapping TypeName="firstModel.Sex">
+        <MappingFragment StoreEntitySet="Sex">
+          <ScalarProperty Name="Sex_ID" ColumnName="Sex_ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="firstModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="firstModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+          <ScalarProperty Name="Full_Name" ColumnName="Full_Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Date_of_Birth" ColumnName="Date_of_Birth" />
+          <ScalarProperty Name="Phone_Number" ColumnName="Phone_Number" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Foto" ColumnName="Foto" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_Event">
+      <EntityTypeMapping TypeName="firstModel.User_Event">
+        <MappingFragment StoreEntitySet="User_Event">
+          <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+          <ScalarProperty Name="Event_ID" ColumnName="Event_ID" />
+          <ScalarProperty Name="Is_Vinner" ColumnName="Is_Vinner" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="User_Section" TypeName="firstModel.User_Section" StoreEntitySet="User_Section">
+      <EndProperty Name="Section">
+        <ScalarProperty Name="Section_ID" ColumnName="Section_ID" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="User_Sex" TypeName="firstModel.User_Sex" StoreEntitySet="User_Sex">
+      <EndProperty Name="Sex">
+        <ScalarProperty Name="Sex_ID" ColumnName="Sex_ID" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="Event_Section" TypeName="firstModel.Event_Section" StoreEntitySet="Event_Section">
+      <EndProperty Name="Section">
+        <ScalarProperty Name="Section_ID" ColumnName="Section_ID" />
+      </EndProperty>
+      <EndProperty Name="Event">
+        <ScalarProperty Name="Event_ID" ColumnName="Event_ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

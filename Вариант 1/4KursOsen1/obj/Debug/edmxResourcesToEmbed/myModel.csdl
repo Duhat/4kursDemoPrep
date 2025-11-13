@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="firstModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Event">
+    <Key>
+      <PropertyRef Name="Event_ID" />
+    </Key>
+    <Property Name="Event_ID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Date_of_Start" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Day_Longs" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User_Event" Relationship="Self.FK_User_Event_Event" FromRole="Event" ToRole="User_Event" />
+    <NavigationProperty Name="Section" Relationship="firstModel.Event_Section" FromRole="Event" ToRole="Section" />
+  </EntityType>
+  <EntityType Name="Section">
+    <Key>
+      <PropertyRef Name="Section_ID" />
+    </Key>
+    <Property Name="Section_ID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.User_Section" FromRole="Section" ToRole="User" />
+    <NavigationProperty Name="Event" Relationship="firstModel.Event_Section" FromRole="Section" ToRole="Event" />
+  </EntityType>
+  <EntityType Name="Sex">
+    <Key>
+      <PropertyRef Name="Sex_ID" />
+    </Key>
+    <Property Name="Sex_ID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="Self.User_Sex" FromRole="Sex" ToRole="User" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="User_ID" />
+    </Key>
+    <Property Name="User_ID" Type="Int32" Nullable="false" />
+    <Property Name="Full_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Date_of_Birth" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Phone_Number" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Foto" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Role" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="User_Event" Relationship="Self.FK_User_Event_User" FromRole="User" ToRole="User_Event" />
+    <NavigationProperty Name="Section" Relationship="Self.User_Section" FromRole="User" ToRole="Section" />
+    <NavigationProperty Name="Sex" Relationship="Self.User_Sex" FromRole="User" ToRole="Sex" />
+  </EntityType>
+  <EntityType Name="User_Event">
+    <Key>
+      <PropertyRef Name="User_ID" />
+      <PropertyRef Name="Event_ID" />
+    </Key>
+    <Property Name="User_ID" Type="Int32" Nullable="false" />
+    <Property Name="Event_ID" Type="Int32" Nullable="false" />
+    <Property Name="Is_Vinner" Type="Boolean" />
+    <NavigationProperty Name="Event" Relationship="Self.FK_User_Event_Event" FromRole="User_Event" ToRole="Event" />
+    <NavigationProperty Name="User" Relationship="Self.FK_User_Event_User" FromRole="User_Event" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_User_Event_Event">
+    <End Role="Event" Type="Self.Event" Multiplicity="1" />
+    <End Role="User_Event" Type="Self.User_Event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Event">
+        <PropertyRef Name="Event_ID" />
+      </Principal>
+      <Dependent Role="User_Event">
+        <PropertyRef Name="Event_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Event_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="User_Event" Type="Self.User_Event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_ID" />
+      </Principal>
+      <Dependent Role="User_Event">
+        <PropertyRef Name="User_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="User_Section">
+    <End Role="Section" Type="Self.Section" Multiplicity="*" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+  </Association>
+  <Association Name="User_Sex">
+    <End Role="Sex" Type="Self.Sex" Multiplicity="*" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Event" EntityType="Self.Event" />
+    <EntitySet Name="Section" EntityType="Self.Section" />
+    <EntitySet Name="Sex" EntityType="Self.Sex" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <EntitySet Name="User_Event" EntityType="Self.User_Event" />
+    <AssociationSet Name="FK_User_Event_Event" Association="Self.FK_User_Event_Event">
+      <End Role="Event" EntitySet="Event" />
+      <End Role="User_Event" EntitySet="User_Event" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Event_User" Association="Self.FK_User_Event_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="User_Event" EntitySet="User_Event" />
+    </AssociationSet>
+    <AssociationSet Name="User_Section" Association="Self.User_Section">
+      <End Role="Section" EntitySet="Section" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <AssociationSet Name="User_Sex" Association="Self.User_Sex">
+      <End Role="Sex" EntitySet="Sex" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <AssociationSet Name="Event_Section" Association="firstModel.Event_Section">
+      <End Role="Event" EntitySet="Event" />
+      <End Role="Section" EntitySet="Section" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="Event_Section">
+    <End Type="firstModel.Event" Role="Event" Multiplicity="*" />
+    <End Type="firstModel.Section" Role="Section" Multiplicity="*" />
+  </Association>
+</Schema>

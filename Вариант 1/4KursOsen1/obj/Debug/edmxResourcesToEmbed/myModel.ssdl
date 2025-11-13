@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище firstModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Event">
+    <Key>
+      <PropertyRef Name="Event_ID" />
+    </Key>
+    <Property Name="Event_ID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date_of_Start" Type="datetime" Nullable="false" />
+    <Property Name="Day_Longs" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Event_Section">
+    <Key>
+      <PropertyRef Name="Event_ID" />
+      <PropertyRef Name="Section_ID" />
+    </Key>
+    <Property Name="Event_ID" Type="int" Nullable="false" />
+    <Property Name="Section_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Section">
+    <Key>
+      <PropertyRef Name="Section_ID" />
+    </Key>
+    <Property Name="Section_ID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sex">
+    <Key>
+      <PropertyRef Name="Sex_ID" />
+    </Key>
+    <Property Name="Sex_ID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="User_ID" />
+    </Key>
+    <Property Name="User_ID" Type="int" Nullable="false" />
+    <Property Name="Full_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Date_of_Birth" Type="datetime" Nullable="false" />
+    <Property Name="Phone_Number" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Password" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Foto" Type="nchar" MaxLength="20" />
+    <Property Name="Role" Type="nchar" MaxLength="15" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User_Event">
+    <Key>
+      <PropertyRef Name="User_ID" />
+      <PropertyRef Name="Event_ID" />
+    </Key>
+    <Property Name="User_ID" Type="int" Nullable="false" />
+    <Property Name="Event_ID" Type="int" Nullable="false" />
+    <Property Name="Is_Vinner" Type="bit" />
+  </EntityType>
+  <EntityType Name="User_Section">
+    <Key>
+      <PropertyRef Name="User_ID" />
+      <PropertyRef Name="Section_ID" />
+    </Key>
+    <Property Name="User_ID" Type="int" Nullable="false" />
+    <Property Name="Section_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User_Sex">
+    <Key>
+      <PropertyRef Name="User_ID" />
+      <PropertyRef Name="Sex_ID" />
+    </Key>
+    <Property Name="User_ID" Type="int" Nullable="false" />
+    <Property Name="Sex_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Event_Section_Event">
+    <End Role="Event" Type="Self.Event" Multiplicity="1" />
+    <End Role="Event_Section" Type="Self.Event_Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Event">
+        <PropertyRef Name="Event_ID" />
+      </Principal>
+      <Dependent Role="Event_Section">
+        <PropertyRef Name="Event_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Event_Section_Section">
+    <End Role="Section" Type="Self.Section" Multiplicity="1" />
+    <End Role="Event_Section" Type="Self.Event_Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Section">
+        <PropertyRef Name="Section_ID" />
+      </Principal>
+      <Dependent Role="Event_Section">
+        <PropertyRef Name="Section_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Event_Event">
+    <End Role="Event" Type="Self.Event" Multiplicity="1" />
+    <End Role="User_Event" Type="Self.User_Event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Event">
+        <PropertyRef Name="Event_ID" />
+      </Principal>
+      <Dependent Role="User_Event">
+        <PropertyRef Name="Event_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Event_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="User_Event" Type="Self.User_Event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_ID" />
+      </Principal>
+      <Dependent Role="User_Event">
+        <PropertyRef Name="User_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Section_Section">
+    <End Role="Section" Type="Self.Section" Multiplicity="1" />
+    <End Role="User_Section" Type="Self.User_Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Section">
+        <PropertyRef Name="Section_ID" />
+      </Principal>
+      <Dependent Role="User_Section">
+        <PropertyRef Name="Section_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Section_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="User_Section" Type="Self.User_Section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_ID" />
+      </Principal>
+      <Dependent Role="User_Section">
+        <PropertyRef Name="User_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Sex_Sex">
+    <End Role="Sex" Type="Self.Sex" Multiplicity="1" />
+    <End Role="User_Sex" Type="Self.User_Sex" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sex">
+        <PropertyRef Name="Sex_ID" />
+      </Principal>
+      <Dependent Role="User_Sex">
+        <PropertyRef Name="Sex_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Sex_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="User_Sex" Type="Self.User_Sex" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="User_ID" />
+      </Principal>
+      <Dependent Role="User_Sex">
+        <PropertyRef Name="User_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище firstModelContainer">
+    <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Event_Section" EntityType="Self.Event_Section" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sex" EntityType="Self.Sex" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Event" EntityType="Self.User_Event" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Section" EntityType="Self.User_Section" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Sex" EntityType="Self.User_Sex" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Event_Section_Event" Association="Self.FK_Event_Section_Event">
+      <End Role="Event" EntitySet="Event" />
+      <End Role="Event_Section" EntitySet="Event_Section" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Event_Section_Section" Association="Self.FK_Event_Section_Section">
+      <End Role="Section" EntitySet="Section" />
+      <End Role="Event_Section" EntitySet="Event_Section" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Event_Event" Association="Self.FK_User_Event_Event">
+      <End Role="Event" EntitySet="Event" />
+      <End Role="User_Event" EntitySet="User_Event" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Event_User" Association="Self.FK_User_Event_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="User_Event" EntitySet="User_Event" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Section_Section" Association="Self.FK_User_Section_Section">
+      <End Role="Section" EntitySet="Section" />
+      <End Role="User_Section" EntitySet="User_Section" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Section_User" Association="Self.FK_User_Section_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="User_Section" EntitySet="User_Section" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Sex_Sex" Association="Self.FK_User_Sex_Sex">
+      <End Role="Sex" EntitySet="Sex" />
+      <End Role="User_Sex" EntitySet="User_Sex" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Sex_User" Association="Self.FK_User_Sex_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="User_Sex" EntitySet="User_Sex" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
